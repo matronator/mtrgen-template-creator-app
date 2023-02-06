@@ -8,6 +8,7 @@ import (
 	"github.com/wailsapp/wails/v2/pkg/menu/keys"
 	"github.com/wailsapp/wails/v2/pkg/options"
 	"github.com/wailsapp/wails/v2/pkg/options/assetserver"
+	"github.com/wailsapp/wails/v2/pkg/options/linux"
 	"github.com/wailsapp/wails/v2/pkg/options/mac"
 )
 
@@ -24,7 +25,20 @@ func main() {
 	FileMenu.AddText("Export to JSON", keys.CmdOrCtrl("e"), func(cd *menu.CallbackData) {
 		app.ExportToJSON(app.ctx)
 	})
+	FileMenu.AddText("Save template to file...", keys.CmdOrCtrl("s"), func(cd *menu.CallbackData) {
+		app.OnSaveFile(app.ctx)
+	})
+	FileMenu.AddText("Load JSON template...", keys.CmdOrCtrl("o"), func(cd *menu.CallbackData) {
+		app.OnLoadFile(app.ctx)
+	})
 	MainMenu.Append(menu.EditMenu())
+
+	// go:embed appicon.png
+	icon, errr := embed.FS.ReadFile(assets, "appicon.png")
+
+	if errr != nil {
+		println("Error:", errr.Error())
+	}
 
 	// Create application with options
 	err := wails.Run(&options.App{
@@ -53,7 +67,12 @@ func main() {
 			About: &mac.AboutInfo{
 				Title:   "MTRGen Template Creator",
 				Message: "Generate JSON, YAML or NEON templates for MTRGen to generate PHP files from.\n\nMatronator © 2021",
+				Icon:    icon,
 			},
+		},
+		Linux: &linux.Options{
+			Icon:                icon,
+			WindowIsTranslucent: false,
 		},
 	})
 

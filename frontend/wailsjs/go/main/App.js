@@ -9,3 +9,19 @@ export function ExportToJSON(arg1) {
 export function Greet(arg1) {
   return window['go']['main']['App']['Greet'](arg1);
 }
+
+export function LoadFile() {
+  return window['go']['main']['App']['LoadFile']();
+}
+
+export function OnLoadFile(arg1) {
+  return window['go']['main']['App']['OnLoadFile'](arg1);
+}
+
+export function OnSaveFile(arg1) {
+  return window['go']['main']['App']['OnSaveFile'](arg1);
+}
+
+export function SaveFile(arg1, arg2) {
+  return window['go']['main']['App']['SaveFile'](arg1, arg2);
+}

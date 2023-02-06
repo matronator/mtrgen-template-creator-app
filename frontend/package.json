@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "bootstrap": "^5.2.2",
-    "mtrgen-template-editor": "^1.0.4",
+    "mtrgen-template-editor": "^1.0.5",
     "react": "^18.2.0",
     "react-bootstrap": "^2.6.0",
     "react-dom": "^18.2.0",

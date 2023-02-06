@@ -1,16 +1,18 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
+import { Alert, Button, Col, Modal } from 'react-bootstrap';
 import { PrismLight } from 'react-syntax-highlighter';
 import json from 'react-syntax-highlighter/dist/esm/languages/prism/json';
 import darcula from 'react-syntax-highlighter/dist/esm/styles/prism/darcula';
-import { Alert, Button, Col, Modal } from "react-bootstrap";
-import { Convert, Template } from "../Schema";
-import { useCopyToClipboard } from "usehooks-ts";
-import { EventsOn } from "../../../wailsjs/runtime/runtime";
+import { useCopyToClipboard, useEffectOnce } from 'usehooks-ts';
+
+import { EventsOn } from '../../../wailsjs/runtime/runtime';
+import { Convert, Template } from '../Schema';
 
 interface OutputModalProps {
     show: boolean;
     onHide?: () => void;
     template: Template;
+    onDownload: () => void;
 }
 
 export function OutputModal(props: OutputModalProps) {
@@ -32,7 +34,10 @@ export function OutputModal(props: OutputModalProps) {
         setVisible(true);
     }
 
-    EventsOn('onExportToJSON', () => setShow(true));
+    useEffectOnce(() => {
+        EventsOn('onExportToJSON', () => setShow(true));
+    });
+
 
     return (
         <>
@@ -58,7 +63,7 @@ export function OutputModal(props: OutputModalProps) {
                         <Button className="me-2" variant="primary" onClick={handleCopy}>
                             <i className="fa fa-clone"></i> Copy JSON
                         </Button>
-                        <a className="btn btn-success" href={`data:text/json;charset=utf-8,${encodeURIComponent(output)}`} download={`${props.template.name}.json`}>
+                        <a className="btn btn-success" onClick={props.onDownload} href={`data:text/json;charset=utf-8,${encodeURIComponent(output)}`} download={`${props.template.name}.json`}>
                             <i className="fa fa-download"></i> Download as file
                         </a>
                     </Col>

@@ -4,6 +4,8 @@
 //
 //   const template = Convert.toTemplate(json);
 
+import { compareArrays, generateUUID } from '../utils';
+
 /**
  * Schema for YAML/JSON templates for MTRGen PHP file generator.
  *
@@ -132,11 +134,24 @@ export interface IndexedString {
 // Converts JSON strings to/from your types
 export class Convert {
     public static toTemplate(json: string): Template {
-        return JSON.parse(json);
+        return JSON.parse(json, (key, value) => {
+            if (['comments', 'use', 'body', 'traits', 'implements'].includes(key)) {
+                return { id: generateUUID(), value: value };
+            }
+            return value;
+        });
     }
 
     public static templateToJson(value: Template): string {
-        return JSON.stringify(value, (key, value) => key !== 'id' ? value : undefined, 2);
+        return JSON.stringify(value, (key, value) => {
+            if (key === 'id') {
+                return undefined;
+            }
+            if (value instanceof Object && compareArrays(Object.keys(value), ['id', 'value'])) {
+                return value.value;
+            }
+            return value;
+        }, 2);
     }
 
     public static toFile(json: string): File {

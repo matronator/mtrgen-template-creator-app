@@ -5,3 +5,11 @@ import {context} from '../models';
 export function ExportToJSON(arg1:context.Context):Promise<void>;
 
 export function Greet(arg1:string):Promise<string>;
+
+export function LoadFile():Promise<string>;
+
+export function OnLoadFile(arg1:context.Context):Promise<void>;
+
+export function OnSaveFile(arg1:context.Context):Promise<void>;
+
+export function SaveFile(arg1:string,arg2:string):Promise<string>;

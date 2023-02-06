@@ -2,6 +2,7 @@ html {
     background-color: rgba(27, 38, 54, 1);
     text-align: center;
     color: white;
+    overscroll-behavior: none;
 }
 
 body {
@@ -22,4 +23,26 @@ body {
 
 .modal.modal-xxl .modal-dialog {
     max-width: 720px;
+}
+
+.toast-alert {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 10px auto;
+    padding: 10px;
+    z-index: 9999;
+}
+
+.toast-alert > .alert {
+    display: block;
+}
+.toast-alert > .alert > p {
+    margin-bottom: 0;
 }
