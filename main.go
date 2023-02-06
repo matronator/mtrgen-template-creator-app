@@ -22,14 +22,23 @@ func main() {
 	MainMenu := menu.NewMenu()
 	MainMenu.Append(menu.AppMenu())
 	FileMenu := MainMenu.AddSubmenu("File")
-	FileMenu.AddText("Export to JSON", keys.CmdOrCtrl("e"), func(cd *menu.CallbackData) {
-		app.ExportToJSON(app.ctx)
+	FileMenu.AddText("New file", keys.CmdOrCtrl("n"), func(cd *menu.CallbackData) {
+		app.OnNewFile(app.ctx, false)
 	})
-	FileMenu.AddText("Save template to file...", keys.CmdOrCtrl("s"), func(cd *menu.CallbackData) {
+	FileMenu.AddText("New empty file", keys.Combo("n", keys.CmdOrCtrlKey, keys.ShiftKey), func(cd *menu.CallbackData) {
+		app.OnNewFile(app.ctx, true)
+	})
+	FileMenu.AddSeparator()
+	FileMenu.AddText("Open file...", keys.CmdOrCtrl("o"), func(cd *menu.CallbackData) {
+		app.OnLoadFile(app.ctx)
+	})
+	FileMenu.AddSeparator()
+	FileMenu.AddText("Save...", keys.CmdOrCtrl("s"), func(cd *menu.CallbackData) {
 		app.OnSaveFile(app.ctx)
 	})
-	FileMenu.AddText("Load JSON template...", keys.CmdOrCtrl("o"), func(cd *menu.CallbackData) {
-		app.OnLoadFile(app.ctx)
+	FileMenu.AddSeparator()
+	FileMenu.AddText("Export to JSON", keys.CmdOrCtrl("e"), func(cd *menu.CallbackData) {
+		app.ExportToJSON(app.ctx)
 	})
 	MainMenu.Append(menu.EditMenu())
 

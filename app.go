@@ -42,6 +42,10 @@ func (a *App) OnLoadFile(ctx context.Context) {
 	runtime.EventsEmit(ctx, "onLoadFile")
 }
 
+func (a *App) OnNewFile(ctx context.Context, empty bool) {
+	runtime.EventsEmit(ctx, "onNewFile", empty)
+}
+
 func (a *App) SaveFile(data string, filename string) string {
 	homedir, err := os.UserHomeDir()
 

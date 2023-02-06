@@ -1,8 +1,6 @@
 import './style.css';
-
 import { MTRGenTemplateEditor } from 'mtrgen-template-editor';
-import { useCallback, useEffect, useState } from 'react';
-
+import { useEffect, useState } from 'react';
 import { LoadFile, SaveFile } from '../wailsjs/go/main/App';
 import { EventsOff, EventsOn } from '../wailsjs/runtime/runtime';
 import { OutputModal } from './components/OutputModal/OutputModal';
@@ -15,15 +13,31 @@ function App() {
         name: 'Template',
         filename: '<%name%>Template',
         path: '<%path%>',
-        file: {
-            
-        }
+        file: {},
     });
-
     const [alerts, setAlerts] = useState<AlertToastProps[]>([]);
-    const [loaded, setLoaded] = useState(false);
-    const [, updateState] = useState();
-    const forceUpdate = useCallback(() => updateState(undefined), []);
+
+    async function handleOnNewFile(empty: boolean) {
+        const id = generateUUID();
+        setTemplate(empty ? {
+            name: '',
+            filename: '',
+            path: '',
+            file: {},
+        } : {
+            name: 'Template',
+            filename: '<%name%>Template',
+            path: '<%path%>',
+            file: {},
+        });
+        setAlerts(prevVal => prevVal.concat({
+            id: id,
+            variant: 'success',
+            show: true,
+            text: `New ${empty ? 'empty ' : ''}file created.`,
+            onHide: () => setAlerts(prevVal => prevVal.filter(alert => alert.id !== id)),
+        }));
+    }
 
     async function handleOnSaveFile() {
         console.log('Saving file...');
@@ -45,12 +59,12 @@ function App() {
 
     async function handleOnLoadFile() {
         const data = await LoadFile();
+        console.log(data);
         const id = generateUUID();
         try {
             const newTemplate = Convert.toTemplate(data);
+            console.log(newTemplate);
             setTemplate(newTemplate);
-            setLoaded(true);
-            forceUpdate();
             setAlerts(prevVal => prevVal.concat({
                 id: id,
                 variant: 'success',
@@ -63,19 +77,22 @@ function App() {
                 id: id,
                 variant: 'danger',
                 show: true,
-                text: data,
+                text: 'File couldn\'t be loaded, template may not be valid.',
                 onHide: () => setAlerts(prevVal => prevVal.filter(alert => alert.id !== id)),
             }));
         }
     }
 
     useEffect(() => {
-        EventsOff('onSaveFile');
-        EventsOff('onLoadFile');
-        EventsOn('onSaveFile', () => handleOnSaveFile());
-        EventsOn('onLoadFile', () => handleOnLoadFile());
-        console.log(template);
-    }, [template]);
+        EventsOn('onSaveFile', handleOnSaveFile);
+        EventsOn('onLoadFile', handleOnLoadFile);
+        EventsOn('onNewFile', (empty: boolean) => handleOnNewFile(empty));
+        return () => {
+            EventsOff('onSaveFile');
+            EventsOff('onLoadFile');
+            EventsOff('onNewFile');
+        };
+    }, []);
 
 
     return (
@@ -85,18 +102,12 @@ function App() {
                     <OutputModal show={false} template={template} onDownload={handleOnSaveFile} />
                 </div>
             </div>
-            <>
-                {alerts.map((alert) =>
+            <div className="toast-alert-wrapper">
+                {alerts.reverse().map((alert) =>
                     <AlertToast key={alert.id} show={true} id={alert.id} onHide={alert.onHide} variant={alert.variant} text={alert.text} />
                 )}
-            </>
-            <MTRGenTemplateEditor template={template} onTemplateChange={(temp) => {
-                if (loaded) {
-                    setLoaded(false);
-                } else {
-                    setTemplate(temp);
-                }
-            }} />
+            </div>
+            <MTRGenTemplateEditor setTemplate={setTemplate} template={template} onTemplateChange={(temp) => setTemplate(temp) } />
         </div>
     );
 }

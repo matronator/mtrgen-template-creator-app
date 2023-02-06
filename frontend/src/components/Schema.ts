@@ -136,7 +136,12 @@ export class Convert {
     public static toTemplate(json: string): Template {
         return JSON.parse(json, (key, value) => {
             if (['comments', 'use', 'body', 'traits', 'implements'].includes(key)) {
-                return { id: generateUUID(), value: value };
+                if (Array.isArray(value)) {
+                    value.forEach((item, index) => {
+                        value[index] = { id: generateUUID(), value: item };
+                    });
+                }
+                return value;
             }
             return value;
         });

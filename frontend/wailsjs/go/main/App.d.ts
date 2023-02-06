@@ -10,6 +10,8 @@ export function LoadFile():Promise<string>;
 
 export function OnLoadFile(arg1:context.Context):Promise<void>;
 
+export function OnNewFile(arg1:context.Context,arg2:boolean):Promise<void>;
+
 export function OnSaveFile(arg1:context.Context):Promise<void>;
 
 export function SaveFile(arg1:string,arg2:string):Promise<string>;

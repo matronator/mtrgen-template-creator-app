@@ -18,6 +18,10 @@ export function OnLoadFile(arg1) {
   return window['go']['main']['App']['OnLoadFile'](arg1);
 }
 
+export function OnNewFile(arg1, arg2) {
+  return window['go']['main']['App']['OnNewFile'](arg1, arg2);
+}
+
 export function OnSaveFile(arg1) {
   return window['go']['main']['App']['OnSaveFile'](arg1);
 }

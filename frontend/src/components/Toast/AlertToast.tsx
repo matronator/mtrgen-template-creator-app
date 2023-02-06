@@ -17,7 +17,7 @@ export function AlertToast(props: AlertToastProps) {
         setTimeout(() => {
             setShow(false);
             props.onHide?.();
-        }, 4000);
+        }, 3000);
     });
 
     function handleClose() {

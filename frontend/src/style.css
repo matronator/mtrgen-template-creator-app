@@ -25,23 +25,27 @@ body {
     max-width: 720px;
 }
 
-.toast-alert {
+.toast-alert-wrapper {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
-    height: fit-content;
+    height: auto;
+    max-height: 75vh;
+    overflow-y: hidden;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     margin: 10px auto;
     padding: 10px;
     z-index: 9999;
+    pointer-events: none;
 }
 
 .toast-alert > .alert {
     display: block;
+    pointer-events: all;
 }
 .toast-alert > .alert > p {
     margin-bottom: 0;
