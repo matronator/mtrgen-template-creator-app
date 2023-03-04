@@ -1,4 +1,5 @@
 import './style.css';
+import './accordion.css';
 import { MTRGenTemplateEditor } from 'mtrgen-template-editor';
 import { useEffect, useState } from 'react';
 import { LoadFile, SaveFile } from '../wailsjs/go/main/App';
@@ -82,7 +83,7 @@ function App() {
             }));
         }
     }
-
+    
     useEffect(() => {
         EventsOn('onSaveFile', handleOnSaveFile);
         EventsOn('onLoadFile', handleOnLoadFile);

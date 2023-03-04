@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@szhsin/react-menu": "^3.4.1",
     "bootstrap": "^5.2.2",
     "mtrgen-template-editor": "^1.1.1",
     "react": "^18.2.0",
@@ -25,6 +26,8 @@
     "@types/uuid": "^9.0.0",
     "@vitejs/plugin-react": "^2.0.1",
     "autoprefixer": "^10.4.13",
+    "postcss": "^8.4.21",
+    "postcss-nesting": "^11.1.0",
     "typescript": "^4.6.4",
     "vite": "^3.0.7"
   }
