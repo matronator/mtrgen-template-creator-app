@@ -29,6 +29,6 @@
     "postcss": "^8.4.31",
     "postcss-nesting": "^11.1.0",
     "typescript": "^4.6.4",
-    "vite": "^3.2.8"
+    "vite": "^3.2.10"
   }
 }
