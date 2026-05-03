@@ -26,7 +26,7 @@
     "@types/uuid": "^9.0.0",
     "@vitejs/plugin-react": "^4.3.4",
     "autoprefixer": "^10.4.13",
-    "postcss": "^8.4.31",
+    "postcss": "^8.5.13",
     "postcss-nesting": "^11.1.0",
     "typescript": "^4.6.4",
     "vite": "^6.4.2"
